@@ -1,0 +1,1560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bhumika P. Morey — Geospatial Research Consultant</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a14;
+    --paper: #f5f2eb;
+    --moss: #3d5a3e;
+    --moss-light: #c8d9c8;
+    --earth: #8b6914;
+    --earth-light: #e8d9b0;
+    --rust: #7a3b1e;
+    --mist: #e8ede8;
+    --accent: #2e5e2e;
+    --line: rgba(26,26,20,0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* Topographic SVG background pattern */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cellipse cx='300' cy='300' rx='280' ry='200' fill='none' stroke='%233d5a3e' stroke-width='0.4' opacity='0.08'/%3E%3Cellipse cx='300' cy='300' rx='220' ry='155' fill='none' stroke='%233d5a3e' stroke-width='0.4' opacity='0.08'/%3E%3Cellipse cx='300' cy='300' rx='165' ry='112' fill='none' stroke='%233d5a3e' stroke-width='0.4' opacity='0.08'/%3E%3Cellipse cx='300' cy='300' rx='110' ry='72' fill='none' stroke='%233d5a3e' stroke-width='0.4' opacity='0.08'/%3E%3Cellipse cx='300' cy='300' rx='58' ry='36' fill='none' stroke='%233d5a3e' stroke-width='0.4' opacity='0.08'/%3E%3Cellipse cx='80' cy='80' rx='140' ry='95' fill='none' stroke='%233d5a3e' stroke-width='0.4' opacity='0.06'/%3E%3Cellipse cx='80' cy='80' rx='100' ry='68' fill='none' stroke='%233d5a3e' stroke-width='0.4' opacity='0.06'/%3E%3Cellipse cx='520' cy='520' rx='160' ry='110' fill='none' stroke='%233d5a3e' stroke-width='0.4' opacity='0.06'/%3E%3Cellipse cx='520' cy='520' rx='110' ry='75' fill='none' stroke='%233d5a3e' stroke-width='0.4' opacity='0.06'/%3E%3C/svg%3E");
+    background-size: 600px 600px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 48px;
+    background: rgba(245,242,235,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav-logo {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--moss);
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--moss); }
+
+  .nav-cta {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--paper);
+    background: var(--moss);
+    padding: 9px 22px;
+    border-radius: 3px;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: background 0.2s;
+  }
+
+  .nav-cta:hover { background: var(--accent); }
+
+  /* SECTIONS */
+  section { position: relative; z-index: 1; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 60px 80px 80px;
+    border-right: 1px solid var(--line);
+  }
+
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--moss);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hero-tag::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: var(--moss);
+  }
+
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 5vw, 68px);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+    color: var(--ink);
+  }
+
+  .hero-name em {
+    font-style: italic;
+    color: var(--moss);
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(16px, 2vw, 22px);
+    font-style: italic;
+    color: var(--earth);
+    margin-bottom: 32px;
+    font-weight: 400;
+  }
+
+  .hero-bio {
+    font-size: 15px;
+    font-weight: 300;
+    color: rgba(26,26,20,0.75);
+    max-width: 420px;
+    margin-bottom: 44px;
+    line-height: 1.8;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .btn-primary {
+    background: var(--moss);
+    color: var(--paper);
+    padding: 14px 32px;
+    border-radius: 3px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { background: var(--accent); transform: translateY(-1px); }
+
+  .btn-secondary {
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 400;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+    letter-spacing: 0.03em;
+  }
+
+  .btn-secondary:hover { color: var(--moss); border-color: var(--moss); }
+
+  .hero-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 60px;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-bottom: 48px;
+  }
+
+  .stat-box {
+    background: var(--paper);
+    padding: 28px 24px;
+    transition: background 0.2s;
+  }
+
+  .stat-box:hover { background: var(--mist); }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 600;
+    color: var(--moss);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(26,26,20,0.55);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .domain-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    padding: 6px 12px;
+    border: 1px solid var(--line);
+    color: rgba(26,26,20,0.65);
+    background: transparent;
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+
+  .tag:hover {
+    background: var(--moss-light);
+    border-color: var(--moss);
+    color: var(--moss);
+  }
+
+  .tag.active {
+    background: var(--moss-light);
+    border-color: var(--moss);
+    color: var(--moss);
+  }
+
+  /* DIVIDER */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 0 80px;
+    margin: 64px 0 48px;
+  }
+
+  .section-divider::before,
+  .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--moss);
+    white-space: nowrap;
+  }
+
+  /* SERVICES */
+  .services {
+    padding: 0 80px 80px;
+  }
+
+  .services-intro {
+    max-width: 560px;
+    margin-bottom: 52px;
+  }
+
+  .services-intro h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 3vw, 40px);
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+  }
+
+  .services-intro p {
+    font-size: 15px;
+    font-weight: 300;
+    color: rgba(26,26,20,0.65);
+    line-height: 1.8;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+
+  .service-card {
+    background: var(--paper);
+    padding: 36px 32px;
+    transition: background 0.25s;
+    cursor: default;
+  }
+
+  .service-card:hover {
+    background: var(--mist);
+  }
+
+  .service-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--earth);
+    letter-spacing: 0.1em;
+    margin-bottom: 20px;
+  }
+
+  .service-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 14px;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+
+  .service-desc {
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(26,26,20,0.65);
+    line-height: 1.75;
+    margin-bottom: 20px;
+  }
+
+  .service-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tool-pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    padding: 4px 9px;
+    background: var(--earth-light);
+    color: var(--rust);
+    border-radius: 2px;
+  }
+
+  /* QUICK TURNAROUND BADGE */
+  .service-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    gap: 10px;
+  }
+
+  .service-header .service-num { margin-bottom: 0; }
+
+  .badge-quick {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 9px;
+    background: var(--moss-light);
+    color: var(--moss);
+    border-radius: 2px;
+    border: 1px solid var(--moss);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* QUICK MAPPING SERVICES */
+  .mapping-services {
+    padding: 0 80px 80px;
+    background: var(--ink);
+  }
+
+  .mapping-inner {
+    padding-top: 64px;
+  }
+
+  .mapping-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: end;
+    margin-bottom: 52px;
+  }
+
+  .mapping-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 3vw, 40px);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--paper);
+  }
+
+  .mapping-header h2 em { font-style: italic; color: var(--earth-light); }
+
+  .mapping-header p {
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(245,242,235,0.55);
+    line-height: 1.8;
+  }
+
+  .mapping-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: rgba(245,242,235,0.1);
+    border: 1px solid rgba(245,242,235,0.1);
+    margin-bottom: 48px;
+  }
+
+  .mapping-card {
+    background: rgba(245,242,235,0.04);
+    padding: 32px 28px;
+    transition: background 0.25s;
+    cursor: default;
+  }
+
+  .mapping-card:hover { background: rgba(245,242,235,0.09); }
+
+  .mapping-icon {
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(245,242,235,0.2);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .mapping-icon svg { width: 18px; height: 18px; }
+
+  .mapping-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--paper);
+    margin-bottom: 12px;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+
+  .mapping-card-desc {
+    font-size: 13px;
+    font-weight: 300;
+    color: rgba(245,242,235,0.55);
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  .mapping-examples {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .mapping-example {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: rgba(245,242,235,0.35);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .mapping-example::before {
+    content: '';
+    display: inline-block;
+    width: 3px;
+    height: 3px;
+    background: var(--earth-light);
+    border-radius: 50%;
+    flex-shrink: 0;
+    opacity: 0.6;
+  }
+
+  /* PRICING STRIP */
+  .pricing-strip {
+    border: 1px solid rgba(245,242,235,0.12);
+    border-radius: 3px;
+    padding: 28px 36px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: center;
+    background: rgba(245,242,235,0.04);
+    margin-bottom: 64px;
+  }
+
+  .pricing-left {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .pricing-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--earth-light);
+    opacity: 0.7;
+  }
+
+  .pricing-text {
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(245,242,235,0.7);
+    line-height: 1.6;
+  }
+
+  .pricing-tiers {
+    display: flex;
+    gap: 10px;
+  }
+
+  .pricing-tier {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 14px 20px;
+    border: 1px solid rgba(245,242,235,0.12);
+    border-radius: 3px;
+    min-width: 90px;
+  }
+
+  .pricing-tier-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(245,242,235,0.4);
+  }
+
+  .pricing-tier-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--paper);
+    white-space: nowrap;
+  }
+
+  .pricing-tier.highlight {
+    border-color: var(--earth-light);
+    background: rgba(232,217,176,0.06);
+  }
+
+  .pricing-tier.highlight .pricing-tier-name { color: var(--earth-light); opacity: 0.8; }
+
+  @media (max-width: 900px) {
+    .mapping-services { padding-left: 32px; padding-right: 32px; }
+    .mapping-header { grid-template-columns: 1fr; gap: 16px; }
+    .mapping-grid { grid-template-columns: 1fr 1fr; }
+    .pricing-strip { grid-template-columns: 1fr; }
+    .pricing-tiers { flex-wrap: wrap; }
+  }
+
+  @media (max-width: 600px) {
+    .mapping-grid { grid-template-columns: 1fr; }
+  }
+
+  /* PROJECTS */
+  .projects {
+    padding: 0 80px 80px;
+  }
+
+  .projects-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 48px;
+  }
+
+  .projects-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 3vw, 40px);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+
+  .projects-header p {
+    font-size: 14px;
+    color: rgba(26,26,20,0.5);
+    max-width: 260px;
+    text-align: right;
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  .project-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+
+  .project-item {
+    background: var(--paper);
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 0;
+    align-items: center;
+    transition: background 0.2s;
+    cursor: default;
+  }
+
+  .project-item:hover { background: var(--mist); }
+
+  .project-year {
+    padding: 28px 24px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--earth);
+    letter-spacing: 0.06em;
+    border-right: 1px solid var(--line);
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+  }
+
+  .project-body {
+    padding: 28px 32px;
+  }
+
+  .project-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+
+  .project-desc {
+    font-size: 13px;
+    font-weight: 300;
+    color: rgba(26,26,20,0.6);
+    line-height: 1.6;
+  }
+
+  .project-meta {
+    padding: 28px 32px 28px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    min-width: 180px;
+  }
+
+  .project-org {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--moss);
+    letter-spacing: 0.08em;
+  }
+
+  .project-domain {
+    font-size: 11px;
+    font-weight: 400;
+    color: rgba(26,26,20,0.4);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* PUBLICATIONS */
+  .publications {
+    padding: 0 80px 80px;
+  }
+
+  .pub-intro {
+    max-width: 560px;
+    margin-bottom: 48px;
+  }
+
+  .pub-intro h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 3vw, 40px);
+    font-weight: 600;
+    margin-bottom: 14px;
+    letter-spacing: -0.01em;
+  }
+
+  .pub-intro p {
+    font-size: 15px;
+    font-weight: 300;
+    color: rgba(26,26,20,0.6);
+    line-height: 1.8;
+  }
+
+  .pub-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--line);
+  }
+
+  .pub-item {
+    padding: 28px 36px;
+    border-bottom: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: start;
+    transition: background 0.2s;
+    cursor: default;
+  }
+
+  .pub-item:last-child { border-bottom: none; }
+  .pub-item:hover { background: var(--mist); }
+
+  .pub-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 400;
+    font-style: italic;
+    margin-bottom: 6px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+
+  .pub-journal {
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(26,26,20,0.5);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.04em;
+  }
+
+  .pub-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--earth);
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    padding-top: 2px;
+  }
+
+  /* TOOLS */
+  .tools {
+    padding: 0 80px 80px;
+    background: var(--mist);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .tools-inner {
+    padding: 64px 0;
+  }
+
+  .tools h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 2.5vw, 34px);
+    font-weight: 600;
+    margin-bottom: 40px;
+    letter-spacing: -0.01em;
+  }
+
+  .tools-groups {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+  }
+
+  .tool-group-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--moss);
+    margin-bottom: 14px;
+  }
+
+  .tool-items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .tool-item {
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(26,26,20,0.75);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .tool-item::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    background: var(--moss);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* CONTACT */
+  .contact {
+    padding: 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .contact-left h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(30px, 3.5vw, 48px);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+
+  .contact-left h2 em {
+    font-style: italic;
+    color: var(--moss);
+  }
+
+  .contact-left p {
+    font-size: 15px;
+    font-weight: 300;
+    color: rgba(26,26,20,0.65);
+    line-height: 1.8;
+    margin-bottom: 36px;
+    max-width: 400px;
+  }
+
+  .contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .contact-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 14px;
+    font-weight: 300;
+  }
+
+  .contact-row-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--moss);
+    width: 70px;
+    flex-shrink: 0;
+  }
+
+  .contact-row a {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .contact-row a:hover { color: var(--moss); border-color: var(--moss); }
+
+  .contact-right {
+    background: var(--moss);
+    padding: 52px 48px;
+    border-radius: 3px;
+  }
+
+  .contact-right h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--paper);
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .contact-right p {
+    font-size: 13px;
+    font-weight: 300;
+    color: rgba(245,242,235,0.65);
+    margin-bottom: 36px;
+    line-height: 1.7;
+  }
+
+  .engage-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .engage-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .engage-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--earth-light);
+    border-radius: 50%;
+    margin-top: 8px;
+    flex-shrink: 0;
+  }
+
+  .engage-text {
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(245,242,235,0.85);
+    line-height: 1.6;
+  }
+
+  .engage-text strong {
+    color: var(--paper);
+    font-weight: 500;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 28px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer p {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: rgba(26,26,20,0.4);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-left > * {
+    animation: fadeUp 0.7s ease forwards;
+    opacity: 0;
+  }
+
+  .hero-left > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero-left > *:nth-child(2) { animation-delay: 0.2s; }
+  .hero-left > *:nth-child(3) { animation-delay: 0.3s; }
+  .hero-left > *:nth-child(4) { animation-delay: 0.4s; }
+  .hero-left > *:nth-child(5) { animation-delay: 0.5s; }
+
+  .hero-right {
+    animation: fadeUp 0.7s ease 0.35s forwards;
+    opacity: 0;
+  }
+
+  /* responsive */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-left { padding: 60px 32px 40px; border-right: none; border-bottom: 1px solid var(--line); }
+    .hero-right { padding: 40px 32px 60px; }
+    .services, .projects, .publications, footer { padding-left: 32px; padding-right: 32px; }
+    .tools { padding-left: 32px; padding-right: 32px; }
+    .tools-groups { grid-template-columns: 1fr 1fr; }
+    .services-grid { grid-template-columns: 1fr; }
+    .project-item { grid-template-columns: 60px 1fr; }
+    .project-meta { display: none; }
+    .contact { grid-template-columns: 1fr; padding: 48px 32px; gap: 40px; }
+    .section-divider { padding: 0 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">Bhumika P. Morey</span>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#mapping">Mapping</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#publications">Research</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Hire me</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <div class="hero-tag">Geospatial Research Consultant</div>
+    <h1 class="hero-name">Bhumika<br><em>P. Morey</em></h1>
+    <p class="hero-title">Forest · Biodiversity · Climate · Policy</p>
+    <p class="hero-bio">
+      Geospatial researcher and analyst with 7+ years of experience translating complex spatial data into evidence-based decisions across forest governance, wildlife conservation, disaster risk, and urban sustainability across India.
+    </p>
+    <div class="hero-actions">
+      <a href="#services" class="btn-primary">Explore services</a>
+      <a href="#publications" class="btn-secondary">View research</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-num">7</div>
+        <div class="stat-label">Peer-reviewed publications</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">7+</div>
+        <div class="stat-label">Years of experience</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">8</div>
+        <div class="stat-label">States covered</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">75+</div>
+        <div class="stat-label">Field researchers led</div>
+      </div>
+    </div>
+    <div class="domain-tags">
+      <span class="tag active">Forest governance</span>
+      <span class="tag">Wildlife GIS</span>
+      <span class="tag">Carbon accounting</span>
+      <span class="tag">Disaster risk</span>
+      <span class="tag">Land-use change</span>
+      <span class="tag">FEW systems</span>
+      <span class="tag">Remote sensing</span>
+      <span class="tag">Community forestry</span>
+      <span class="tag active">Government maps</span>
+      <span class="tag">Land parcel &amp; claims</span>
+      <span class="tag">Atlas production</span>
+      <span class="tag">Town planning</span>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES DIVIDER -->
+<div class="section-divider" id="services"><span class="section-label">Services</span></div>
+
+<!-- SERVICES -->
+<div class="services">
+  <div class="services-intro">
+    <h2>What I can do<br>for your project</h2>
+    <p>From a single map for a local municipality to multi-year research partnerships, I offer flexible, project-based geospatial consultancy grounded in peer-reviewed methods and deep field knowledge. Small and quick-turnaround projects welcome.</p>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-header">
+        <div class="service-num">01</div>
+      </div>
+      <div class="service-title">Forest &amp; Land-use Mapping</div>
+      <p class="service-desc">High-resolution mapping of forest cover change, deforestation drivers, community forest resource rights (CFRR), and habitat boundaries using multi-temporal satellite imagery and ground validation.</p>
+      <div class="service-tools">
+        <span class="tool-pill">ArcGIS Pro</span>
+        <span class="tool-pill">SNAP/Sentinel</span>
+        <span class="tool-pill">GEE</span>
+        <span class="tool-pill">Survey of India</span>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <div class="service-header">
+        <div class="service-num">02</div>
+      </div>
+      <div class="service-title">Biodiversity &amp; Wildlife GIS</div>
+      <p class="service-desc">Spatial analysis of wildlife habitats, conflict hotspot identification, species distribution mapping, and ecological impact assessments for infrastructure projects.</p>
+      <div class="service-tools">
+        <span class="tool-pill">ArcGIS Pro</span>
+        <span class="tool-pill">Spatial statistics</span>
+        <span class="tool-pill">Remote sensing</span>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <div class="service-header">
+        <div class="service-num">03</div>
+      </div>
+      <div class="service-title">Carbon &amp; Climate Analytics</div>
+      <p class="service-desc">Forest carbon stock assessment, digital carbon accounting tool development, and climate-induced stress analysis on Food-Energy-Water (FEW) systems at district and regional scale.</p>
+      <div class="service-tools">
+        <span class="tool-pill">GEE</span>
+        <span class="tool-pill">Field validation</span>
+        <span class="tool-pill">R</span>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <div class="service-header">
+        <div class="service-num">04</div>
+      </div>
+      <div class="service-title">Disaster Risk Assessment</div>
+      <p class="service-desc">Multi-hazard vulnerability mapping, urban-rural partnership frameworks for climate resilience, and socio-ecological resilience indicators grounded in SDG frameworks.</p>
+      <div class="service-tools">
+        <span class="tool-pill">ArcGIS Pro</span>
+        <span class="tool-pill">Indicator frameworks</span>
+        <span class="tool-pill">GIS modelling</span>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <div class="service-header">
+        <div class="service-num">05</div>
+        <span class="badge-quick">Quick turnaround</span>
+      </div>
+      <div class="service-title">Field Research &amp; Data Design</div>
+      <p class="service-desc">End-to-end field research design, ODK-based data collection, enumerator training, and quality assurance for large-scale primary surveys across rural and forest landscapes.</p>
+      <div class="service-tools">
+        <span class="tool-pill">ODK</span>
+        <span class="tool-pill">Mixed methods</span>
+        <span class="tool-pill">Research design</span>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <div class="service-header">
+        <div class="service-num">06</div>
+        <span class="badge-quick">Quick turnaround</span>
+      </div>
+      <div class="service-title">Policy Research &amp; Reporting</div>
+      <p class="service-desc">Synthesis of spatial evidence into policy-ready reports, stakeholder presentations, and atlas-format deliverables for government bodies, NGOs, and development institutions.</p>
+      <div class="service-tools">
+        <span class="tool-pill">Research synthesis</span>
+        <span class="tool-pill">Cartography</span>
+        <span class="tool-pill">AutoCAD Map 3D</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUICK MAPPING DIVIDER -->
+<div class="section-divider" id="mapping"><span class="section-label">Quick Mapping Services</span></div>
+
+<!-- QUICK MAPPING SERVICES -->
+<div class="mapping-services">
+  <div class="mapping-inner">
+    <div class="mapping-header">
+      <h2>Maps for every<br>scale — <em>small towns<br>to major cities</em></h2>
+      <p>Need a single map, a set of district maps, or a personalised claim map? I take on focused, project-based mapping assignments with fast turnaround. All projects are priced flexibly based on scope — reach out for a quote.</p>
+    </div>
+
+    <div class="mapping-grid">
+
+      <div class="mapping-card">
+        <div class="mapping-icon">
+          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="14" height="14" rx="2" stroke="rgba(245,242,235,0.5)" stroke-width="1"/>
+            <path d="M2 7h14M7 2v14" stroke="rgba(245,242,235,0.5)" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="mapping-card-title">Government Agency Maps</div>
+        <div class="mapping-card-desc">Custom thematic and administrative maps for municipal bodies, panchayats, state agencies, and central government departments — publication-ready and to specification.</div>
+        <div class="mapping-examples">
+          <div class="mapping-example">Administrative boundary maps</div>
+          <div class="mapping-example">Infrastructure &amp; utility maps</div>
+          <div class="mapping-example">Land-use zoning maps</div>
+          <div class="mapping-example">Village / ward level mapping</div>
+        </div>
+      </div>
+
+      <div class="mapping-card">
+        <div class="mapping-icon">
+          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 2L9 16M2 9L16 9" stroke="rgba(245,242,235,0.5)" stroke-width="1" stroke-linecap="round"/>
+            <circle cx="9" cy="9" r="4" stroke="rgba(245,242,235,0.5)" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="mapping-card-title">District &amp; Town Planning Maps</div>
+        <div class="mapping-card-desc">Spatial planning maps for small towns, taluka headquarters, and district headquarters — covering settlement patterns, connectivity, green cover, and growth corridors.</div>
+        <div class="mapping-examples">
+          <div class="mapping-example">Town planning scheme maps</div>
+          <div class="mapping-example">Growth corridor analysis</div>
+          <div class="mapping-example">Green &amp; open space mapping</div>
+          <div class="mapping-example">Connectivity &amp; road network</div>
+        </div>
+      </div>
+
+      <div class="mapping-card">
+        <div class="mapping-icon">
+          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 14L9 4L14 14" stroke="rgba(245,242,235,0.5)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M6 10h6" stroke="rgba(245,242,235,0.5)" stroke-width="1" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="mapping-card-title">Personal Claim &amp; Land Parcel Maps</div>
+        <div class="mapping-card-desc">Individually tailored maps for community forest resource (CFR) claims, land parcel documentation, boundary demarcation, and property-level spatial records.</div>
+        <div class="mapping-examples">
+          <div class="mapping-example">CFR / CFRR claim maps</div>
+          <div class="mapping-example">Land parcel boundaries</div>
+          <div class="mapping-example">Property boundary demarcation</div>
+          <div class="mapping-example">Habitat rights documentation</div>
+        </div>
+      </div>
+
+      <div class="mapping-card">
+        <div class="mapping-icon">
+          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="5" width="14" height="10" rx="1.5" stroke="rgba(245,242,235,0.5)" stroke-width="1"/>
+            <path d="M5 5V4a4 4 0 018 0v1" stroke="rgba(245,242,235,0.5)" stroke-width="1" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="mapping-card-title">Atlas &amp; Report Map Production</div>
+        <div class="mapping-card-desc">Professional multi-map atlases, report-embedded figures, and presentation-ready cartographic layouts for research publications, government reports, and funding proposals.</div>
+        <div class="mapping-examples">
+          <div class="mapping-example">Project atlases</div>
+          <div class="mapping-example">Report figure sets</div>
+          <div class="mapping-example">Multi-state overview maps</div>
+          <div class="mapping-example">Presentation map graphics</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="pricing-strip">
+      <div class="pricing-left">
+        <div class="pricing-label">Pricing approach</div>
+        <div class="pricing-text">All mapping projects are priced flexibly based on scope, data availability, and turnaround time. No minimum project size — small commissions are welcome.</div>
+      </div>
+      <div class="pricing-tiers">
+        <div class="pricing-tier">
+          <div class="pricing-tier-name">Small</div>
+          <div class="pricing-tier-label">Single map</div>
+        </div>
+        <div class="pricing-tier highlight">
+          <div class="pricing-tier-name">Medium</div>
+          <div class="pricing-tier-label">Map series</div>
+        </div>
+        <div class="pricing-tier">
+          <div class="pricing-tier-name">Large</div>
+          <div class="pricing-tier-label">Full atlas</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PROJECTS DIVIDER -->
+<div class="section-divider" id="projects"><span class="section-label">Selected Projects</span></div>
+
+<!-- PROJECTS -->
+<div class="projects">
+  <div class="projects-header">
+    <h2>Field experience<br>across India</h2>
+    <p>Multi-state research deployments across diverse ecological and governance contexts.</p>
+  </div>
+
+  <div class="project-list">
+
+    <div class="project-item">
+      <div class="project-year">2023–<br>present</div>
+      <div class="project-body">
+        <div class="project-name">Initiative on the Forest Economy (IoFE)</div>
+        <div class="project-desc">Led geospatial analyses for CFRR and Habitat Rights mapping. Designed mixed-method research integrating spatial datasets with socio-economic variables across AP, HP, Jharkhand &amp; Odisha.</div>
+      </div>
+      <div class="project-meta">
+        <span class="project-org">ISB · BIPP</span>
+        <span class="project-domain">Forest governance</span>
+      </div>
+    </div>
+
+    <div class="project-item">
+      <div class="project-year">2023–<br>present</div>
+      <div class="project-body">
+        <div class="project-name">India Forest Boundary Project</div>
+        <div class="project-desc">Directed digitisation efforts by 75 interns nationally to produce a unified forest boundary dataset. Conducted topographic map validation and resolved spatial inconsistencies using Survey of India data.</div>
+      </div>
+      <div class="project-meta">
+        <span class="project-org">ISB · BIPP</span>
+        <span class="project-domain">Spatial data</span>
+      </div>
+    </div>
+
+    <div class="project-item">
+      <div class="project-year">2023</div>
+      <div class="project-body">
+        <div class="project-name">Carbon Pilot Project — TCS Collaboration</div>
+        <div class="project-desc">Led field-testing of a digital carbon accounting tool in Jharkhand forests. Trained and coordinated 40 enumerators to ensure scientific accuracy in forest carbon data acquisition.</div>
+      </div>
+      <div class="project-meta">
+        <span class="project-org">ISB · TCS</span>
+        <span class="project-domain">Carbon / climate</span>
+      </div>
+    </div>
+
+    <div class="project-item">
+      <div class="project-year">2021–22</div>
+      <div class="project-body">
+        <div class="project-name">Urban-Rural Partnerships for FEW Systems</div>
+        <div class="project-desc">Contributed to a regional framework on climate-induced stress on Food-Energy-Water systems. Developed an indicator-based assessment framework for Nagpur; published in Sustainability journal.</div>
+      </div>
+      <div class="project-meta">
+        <span class="project-org">IRDR · VNIT</span>
+        <span class="project-domain">Disaster / climate</span>
+      </div>
+    </div>
+
+    <div class="project-item">
+      <div class="project-year">2018–20</div>
+      <div class="project-body">
+        <div class="project-name">Nagpur-Mumbai Expressway Wildlife Impact Assessment</div>
+        <div class="project-desc">Spatial impact assessment of the 701 km Samruddhi Corridor. Mapped critical wildlife habitats, authored a project atlas, and contributed mitigation recommendations submitted to MSRDC.</div>
+      </div>
+      <div class="project-meta">
+        <span class="project-org">Wildlife Institute of India</span>
+        <span class="project-domain">Wildlife / infrastructure</span>
+      </div>
+    </div>
+
+    <div class="project-item">
+      <div class="project-year">2018–20</div>
+      <div class="project-body">
+        <div class="project-name">Human-Leopard Conflict Mitigation, Junnar</div>
+        <div class="project-desc">Applied GIS and spatial statistics to analyse two-decade patterns of human-leopard interactions in Maharashtra. Identified conflict hotspots to inform mitigation strategy; published in Global Ecology and Conservation.</div>
+      </div>
+      <div class="project-meta">
+        <span class="project-org">Wildlife Institute of India</span>
+        <span class="project-domain">Wildlife conflict</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PUBLICATIONS DIVIDER -->
+<div class="section-divider" id="publications"><span class="section-label">Research</span></div>
+
+<!-- PUBLICATIONS -->
+<div class="publications">
+  <div class="pub-intro">
+    <h2>Published research</h2>
+    <p>7 peer-reviewed publications in international journals including Global Ecology and Conservation, Sustainability, and Organic Agriculture.</p>
+  </div>
+
+  <div class="pub-list">
+
+    <div class="pub-item">
+      <div>
+        <div class="pub-title">Contrasting patterns of deforestation and reforestation in India's tropical dry woodlands</div>
+        <div class="pub-journal">Environmental Research Letters (under review) · Govindarajulu et al.</div>
+      </div>
+      <div class="pub-year">2024</div>
+    </div>
+
+    <div class="pub-item">
+      <div>
+        <div class="pub-title">High-Resolution Mapping of Shorea robusta (Sal) Distribution in India</div>
+        <div class="pub-journal">Manuscript under review · Patra, Morey, Thomas</div>
+      </div>
+      <div class="pub-year">2024</div>
+    </div>
+
+    <div class="pub-item">
+      <div>
+        <div class="pub-title">Applying Socio-Ecological Perspective for Fostering Resilience in Rural Settlements — Melghat Region, India</div>
+        <div class="pub-journal">Sustainability, 15(3), 1812 · Dakey, Morey et al.</div>
+      </div>
+      <div class="pub-year">2023</div>
+    </div>
+
+    <div class="pub-item">
+      <div>
+        <div class="pub-title">Towards Circulating and Ecological Sphere in Urban Areas: An Indicator-Based Framework for Food-Energy-Water Security Assessment in Nagpur</div>
+        <div class="pub-journal">Sustainability, 14(13), 8123 · Morey et al.</div>
+      </div>
+      <div class="pub-year">2022</div>
+    </div>
+
+    <div class="pub-item">
+      <div>
+        <div class="pub-title">Applying CES Concept for Post-Pandemic Development: A Case of Hingna Tahsil, Nagpur</div>
+        <div class="pub-journal">Sustainability, 14(15), 9386 · Joshi, Morey, Deshkar et al.</div>
+      </div>
+      <div class="pub-year">2022</div>
+    </div>
+
+    <div class="pub-item">
+      <div>
+        <div class="pub-title">Up-scaling organic agriculture to enhance food and water security in South Asia</div>
+        <div class="pub-journal">Organic Agriculture, 12(4), 475–494 · Das, Rahman, Mitra, Morey et al.</div>
+      </div>
+      <div class="pub-year">2022</div>
+    </div>
+
+    <div class="pub-item">
+      <div>
+        <div class="pub-title">Inhabiting terra incognita: Two-decadal patterns of negative human-leopard interactions in human-dominating landscape of Maharashtra</div>
+        <div class="pub-journal">Global Ecology and Conservation, 29, e01740 · Ankit, Morey et al.</div>
+      </div>
+      <div class="pub-year">2021</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- TOOLS -->
+<div class="section-divider"><span class="section-label">Tools &amp; Methods</span></div>
+<div class="tools">
+  <div class="tools-inner">
+    <h2>Technical toolkit</h2>
+    <div class="tools-groups">
+      <div>
+        <div class="tool-group-label">GIS platforms</div>
+        <div class="tool-items">
+          <div class="tool-item">ArcGIS Pro</div>
+          <div class="tool-item">AutoCAD Map 3D</div>
+          <div class="tool-item">Google SketchUp</div>
+          <div class="tool-item">QGIS</div>
+        </div>
+      </div>
+      <div>
+        <div class="tool-group-label">Remote sensing</div>
+        <div class="tool-items">
+          <div class="tool-item">Google Earth Engine</div>
+          <div class="tool-item">SNAP (Sentinel)</div>
+          <div class="tool-item">Multispectral analysis</div>
+          <div class="tool-item">Land cover classification</div>
+        </div>
+      </div>
+      <div>
+        <div class="tool-group-label">Data &amp; analysis</div>
+        <div class="tool-items">
+          <div class="tool-item">R (statistical analysis)</div>
+          <div class="tool-item">Open Data Kit (ODK)</div>
+          <div class="tool-item">Spatial statistics</div>
+          <div class="tool-item">Mixed-methods research</div>
+        </div>
+      </div>
+      <div>
+        <div class="tool-group-label">Domains</div>
+        <div class="tool-items">
+          <div class="tool-item">Forest governance</div>
+          <div class="tool-item">Biodiversity &amp; wildlife</div>
+          <div class="tool-item">Disaster risk reduction</div>
+          <div class="tool-item">Urban-rural planning</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="section-divider" id="contact"><span class="section-label">Contact</span></div>
+
+<section class="contact">
+  <div class="contact-left">
+    <h2>Let's work on<br>something <em>meaningful</em></h2>
+    <p>Available for everything from a single map commission to long-term research partnerships. All projects are priced flexibly based on scope — NGOs, government agencies, small municipalities, and individual applicants welcome.</p>
+
+    <div class="contact-details">
+      <div class="contact-row">
+        <span class="contact-row-label">Email</span>
+        <a href="mailto:bhumika.morey@gmail.com">bhumika.morey@gmail.com</a>
+      </div>
+      <div class="contact-row">
+        <span class="contact-row-label">Phone</span>
+        <span>+91 90494 06513</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-row-label">Location</span>
+        <span>Hyderabad, India (field-ready pan-India)</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-row-label">Based at</span>
+        <span>Bharti Institute of Public Policy, ISB</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="contact-right">
+    <h3>How to engage</h3>
+    <p>Flexible engagement models to suit your project needs and budget.</p>
+    <div class="engage-list">
+      <div class="engage-item">
+        <div class="engage-dot"></div>
+        <div class="engage-text"><strong>Map commission</strong> — A single map, parcel plan, or district atlas. Flexible pricing, fast turnaround. Suitable for municipalities, NGOs, and individuals.</div>
+      </div>
+      <div class="engage-item">
+        <div class="engage-dot"></div>
+        <div class="engage-text"><strong>Short-term analysis</strong> — Spatial analysis deliverables, rapid assessments, or map production for a defined scope.</div>
+      </div>
+      <div class="engage-item">
+        <div class="engage-dot"></div>
+        <div class="engage-text"><strong>Field research design</strong> — Protocol development, enumerator training, and QA supervision for primary data collection.</div>
+      </div>
+      <div class="engage-item">
+        <div class="engage-dot"></div>
+        <div class="engage-text"><strong>Research partnership</strong> — Long-term embedded researcher role for multi-phase projects requiring spatial + policy expertise.</div>
+      </div>
+      <div class="engage-item">
+        <div class="engage-dot"></div>
+        <div class="engage-text"><strong>Policy brief &amp; reporting</strong> — Translating geospatial evidence into accessible outputs for funders, governments, and media.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>Bhumika P. Morey &nbsp;·&nbsp; Geospatial Research Consultant &nbsp;·&nbsp; Hyderabad, India</p>
+  <p>GATE Scholar 2016, 2021 &nbsp;·&nbsp; M.Plan SPA New Delhi</p>
+</footer>
+
+</body>
+</html>
